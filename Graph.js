@@ -1,97 +1,101 @@
+
+
 class Graph{
-  constructor(){
-    this.adjList={}
-  }
-
-  addVertex(vertex){
-    if(!this.adjList[vertex]){
-      this.adjList[vertex]=[]
-    }
-  }
-
-  addEdge(vertex1,vertex2){
-    if(this.adjList[vertex1]){
-      this.adjList[vertex1].push(vertex2)
-    }
-    if(this.adjList[vertex2]){
-      this.adjList[vertex2].push(vertex1)
-    }
-  }
-  
-  removeEdge(vertex1,vertex2){
-this.adjList[vertex1]=this.adjList[vertex1].filter(v=>v!==vertex2)
-
-this.adjList[vertex2]=this.adjList[vertex2].filter(v=>v!==vertex1)
-  }
-
-
-  removeVertex(vertex){
-    while(this.adjList[vertex].length){
-      const rv=this.adjList[vertex].pop()
-      this.removeEdge(vertex,rv)
-    }
-    delete this.adjList[vertex]
-  }
-
-
-  dfs(start){
-    let visited=new Set()
-    let result=[]
-    const help=(vertex)=>{
-      if(!visited){
-        return
-      }
-visited.add(vertex)
-result.push(vertex)
-for(let i of this.adjList[vertex]){
- if(!visited.has(i)){
-  help(i)
- }
-
-}
-    }
-    help(start)
-    return result
-  }
-
-
-  bfs(start){
-    let visited=new Set()
-    let result=[]
-    let queue=[start]
-
-    visited.add(start)
-    while(queue.length>0){
-      let vertex=queue.shift()
-      result.push(vertex)
-      for(let i of this.adjList[vertex]){
-        if(!visited.has(i)){
-          queue.push(i)
-          visited.add(i)
-        }
-      }
-    }
-    return result
-  }
-
+constructor(){
+  this.adjList={}
 }
 
+addVertex(vertex){
+if(!this.adjList[vertex]){
+  this.adjList[vertex]=[]
+}
+}
+addEdge(vertex1,vertex2){
+ if(this.adjList[vertex1]){
+  this.adjList[vertex1].push(vertex2)
+ } 
+ if(this.adjList[vertex2]){
+  this.adjList[vertex2].push(vertex1)
+ } 
+}
+
+removeEdge( vertex1,vertex2){
+  this.adjList[vertex1]=this.adjList[vertex1].filter(i=>i!=vertex2)
+  this.adjList[vertex2]=this.adjList[vertex2].filter(i=>i!=vertex1)
+}
+
+removeVertex(vertex){
+  while(this.adjList[vertex].length>0){
+    let r=this.adjList[vertex].pop
+    this.removeEdge(r,vertex)
+  }
+  delete this.adjList[vertex]
+}
+
+
+bfs(start){
+  let queue=[start]
+  let result=[]
+  let visited={}
+  visited[start]=true
+  while(queue.length){
+    let vertex=queue.shift()
+    result.push(vertex)
+
+    this.adjList[vertex].forEach(i => {
+      if(!visited[i]){
+        visited[i]=true
+        queue.push(i)
+      }
+    });
+  }
+  return result
+}
+
+dfs(start){
+  let stack=[start]
+  let visited={}
+  let result=[]
+  visited[start]=true
+
+  while(stack.length){
+    let vertex=stack.pop()
+    result.push(vertex)
+
+    this.adjList[vertex].forEach(i=>{
+      if(!visited[i]){
+        visited[i]=true
+        stack.push(i)
+      }
+    })
+  }
+  return result
+}
+}
+
+
+
+// Example usage:
 const graph = new Graph();
 
+// Add vertices
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+graph.addVertex("E");
+graph.addVertex("F");
 
-graph.addVertex('A');
-graph.addVertex('B');
-graph.addVertex('C');
-graph.addVertex('D');
+// Add edges
+graph.addEdge("A", "B");
+graph.addEdge("A", "C");
+graph.addEdge("B", "D");
+graph.addEdge("C", "E");
+graph.addEdge("D", "E");
+graph.addEdge("D", "F");
+graph.addEdge("E", "F");
 
-
-graph.addEdge('A', 'B');
-graph.addEdge('A', 'C');
-graph.addEdge('B', 'D');
-console.log(graph.adjList);
-graph.removeVertex("D")
-console.log(graph.adjList);
-const dfsResult = graph.dfs('A');
-console.log("DFS Traversal:", dfsResult); 
-const bfsResult = graph.bfs('A');
-console.log("BFS Traversal:", bfsResult);
+// BFS and DFS Traversals
+console.log("BFS:", graph.bfs("A")); // BFS: [ 'A', 'B', 'C', 'D', 'E', 'F' ]
+console.log("DFS (Iterative):", graph.dfs("A")); // DFS (Iterative): [ 'A', 'C', 'E', 'F', 'D', 'B' ]
+console.log("DFS (Recursive):", graph.dfs("F")); // DFS (Recursive): [

@@ -378,4 +378,69 @@ list2.reverse();
 list2.middle();
 console.log(list2.isEmpty());
 list2.print();
-mergeSorted(list1.head, list2.head).print();
+mergeSorted(list1, list2).print();
+
+
+function lk(head,target,val=0){
+  if(!head){
+    return null
+  }
+  if(head.value===target){
+    return null
+  }
+  let curr=head
+  let prev=null
+  while(curr){
+    if(curr.value===target){
+      prev.value=val
+    }
+    prev=curr
+    curr=curr.next
+  }
+return head
+}
+
+lk(list1.head,72,3)
+list1.print();
+
+function l3(head){
+  if(!head){
+    return null
+  }
+  let curr=head
+  let prev1=0
+  let prev2=0
+  while(curr.next){
+    prev2=prev1
+    prev1=curr.value
+    curr=curr.next
+  }
+  return prev1+prev2+curr.value
+}
+
+console.log(l3(list1.head))
+
+// function ll3(head){
+//   if(!head){
+//     return null
+//   }
+//   let sum=0
+//   let curr=head
+//   let count=0
+//   let target=count-3
+//   while(curr){
+// count ++
+
+//     curr=curr.next
+//   }
+//   while (condition) {
+    
+//   }
+//   if(count>target){
+//     sum +=curr.value
+// }
+
+//   return sum
+// }
+
+// console.log(ll3(list1.head))

@@ -166,6 +166,5 @@ console.log("search",bst.search(66))
 console.log("Preorder Traversal:", bst.preorder());
 console.log("Inorder Traversal:", bst.inorder());   
 console.log("Postorder Traversal:", bst.postorder()); 
-bst.remove(10); // Removing a leaf node
-
+bst.remove(10); 
 console.log("Inorder Traversal:", bst.inorder());
